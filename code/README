@@ -1,0 +1,124 @@
+/* Am obtinut 120 de puncte pe checkerul local. */
+Explicarea structurilor si functiilor folosite in main.
+
+typedef struct banda { }TCelulaBanda, *TBanda;
+Am implementat banda si degetul cu ajutorul unei liste dublu inlantuite cu santinela.
+Variabila "continut" reprezinta un pointer la adresa de inceput a continutului benzii, 
+iar variabila "poz" reprezinta pozitia curenta pe care ma aflu in continutul benzii (degetul). 
+
+Coada si stiva au fost implementate cu ajutorul unei liste simplu inlantuite. 
+Coada retine numele operatiilor ce trebuie executate, informatia din aceasta (variabila "info") fiind de tip string.
+Stivele retin informatii de tip pointer la pozitia actuala a degetului pe banda.
+
+TLista2 AlocCelula2(char x)
+Functia aloca un element de tip celula a unei liste dublu inlantuite si returneaza pointerul aferent acestuia, 
+informatia din acest tip de celula fiind de tip char pentru a putea stoca informatia din banda.
+
+TLista2 InitLista2()
+Functia initializeaza lista dublu inlantuita cu santinela care va fi folosita in implementarea benzii,
+atribuindu-i santinelei valoarea '|' dupa cum este precizat in enunt.
+
+int AdaugaLista2(TLista2 L, char info)
+Functia adauga un element la sfarsitul listei dublu inlantuite cu santinela.
+
+void DistrugeLista2(TLista2 *aL)
+Functia parcurge si distruge fiecare element al listei si elibereaza memoria ocupata de aceasta.
+
+TBanda InitBanda()
+Functia declara o variabila de tip TBanda, iar in cazul in care alocarea se face cu succes
+se initializeaza continutul benzii drept o lista dublu inlantuita cu santinela. 
+Apoi este adaugat primul element al benzii conform cerintei, caracterul '#',
+iar degetul indica catre pozitia acestuia.
+
+TCoada* InitQ()
+Functia aloca memorie pentru o coada si returneaza adresa ei daca alocarea s-a realizat cu succes.
+
+int IntrQ(TCoada *c, char *x)
+Functia adauga elementul x la sfarsitul cozii, luand in considerare atat cazul in care coada este vida,
+dar si cazul in care coada este nevida, facand legaturile corespunzatoare si actualizand sfarsitul cozii.
+
+int ExtrQ(TCoada *coada, char *c)
+Functia extrage primul element al cozii, in cazul in care coada este nevida, returnand 1.
+In cazul in care coada este vida nu se poate extrage niciun element si functia returneaza 0.
+
+void DistrQ(TCoada **c)
+Functia parcurge coada, eliberand memoria ocupata de elementele sale,
+elibereaza memoria ocupata de coada si seteaza pointerul 'c' la NULL.
+
+TStiva InitS(void)
+Functia initializeaza o stiva vida.
+
+int Push(TStiva *vf, TLista2 x)
+Functia adauga elementul x in varful stivei, luand in considerare atat cazul in care stiva este vida, 
+dar si cazul in care stiva este nevida, facand legaturile corespunzatoare si actualizand varful stivei.
+
+int Pop(TStiva *vf, TLista2 *ax)
+Functia extrage elementul din varful stivei, in cazul in care stiva este nevida, returnand 1.
+In cazul in care stiva este vida nu se poate extrage niciun element si functia returneaza 0.
+
+void DistrugeS(TStiva* vf)
+Functia parcurge elementele stivei si elibereaza memoria ocupata de acestea.
+
+char current(TBanda banda)
+Functia returneaza pozitia degetului pe banda.
+
+void show(TBanda banda, FILE *fisierout)
+Functia parcurge elementele benzii si le afiseaza in fisier conform cerintei.
+
+int move_left(TBanda banda)
+Functia muta degetul cu o pozitie mai la stanga daca degetul nu se afla pe primul element al benzii.
+
+void move_right(TBanda banda)
+Functia muta degetul cu o pozitie mai la dreapta daca degetul nu se afla pe ultimul element al benzii.
+Daca se afla pe ultimul element al benzii, adauga la sfarsitul acesteia un nou element cu valoarea '#', 
+dupa care este actualizata pozitia degetului.
+
+void move_left_char(TBanda banda, char c, FILE *fisierout)
+Functia declara o variabila p cu ajutorul careia este parcursa partea stanga a benzii incepand
+de la elementul curent, iar in cazul in care este gasit caracterul cautat 'c' se actualizeaza
+pozitia degetului pe banda pentru a indica catre pozitia caracterului precizat. In cazul in
+care se ajunge pe santinela este afisat mesajul "ERROR" conform cerintei. 
+
+void move_right_char(TBanda banda, char c)
+Functia declara o variabila p cu ajutorul careia este parcursa partea dreapta a benzii incepand
+de la elementul curent, iar in cazul in care este gasit caracterul cautat 'c' se actualizeaza pozitia
+degetului pe banda pentru a indica catre pozitia caracterului precizat. In cazul in care se ajunge pe ultima
+pozitie a benzii si nu este gasit caracterul se adauga la sfarsitul benzii caracterul '#' conform cerintei
+si se actualizeaza pozitia degetului.
+
+void write(TBanda banda, char c)
+Functia scrie caracterul precizat 'c' pe pozitia curenta a degetului. 
+
+void insert_left(TBanda banda, char c, FILE *fisierout)
+Functia insereaza un nou element cu valoarea 'c' in banda la stanga elementului pe care se afla pozitia degetului,
+daca degetul nu se afla pe primul element al benzii.
+
+void insert_right(TBanda banda, char c)
+Functia insereaza un nou element cu valoarea 'c' in banda la dreapta elementului pe care se afla pozitia degetului.
+
+void undo(TBanda banda, TStiva *stivaUNDO, TStiva *stivaREDO)
+Introduc pointerul la pozitia curenta a degetului in stiva de REDO.
+Extrag pointerul din varful stivei de UNDO pe care il retin in banda->poz.
+
+void redo(TBanda banda, TStiva *stivaREDO, TStiva *stivaUNDO)
+Introduc pointerul la pozitia curenta a degetului in stiva de UNDO.
+Extrag pointerul din varful stivei de REDO pe care il retin in banda->poz.
+
+
+Explicarea programului din main
+
+Declar si initializez banda, coada in care voi adauga comenzile ce trebuie executate, stiva de UNDO si cea de REDO.
+Deschid cele doua fisiere pe care le voi folosi, dupa care citesc numarul de comenzi din fisier.
+Folosind o structura repetitiva de tip for citesc pe rand comenzile din fisierul de intrare. In cazul comenzilor
+SHOW si SHOW_CURRENT apelez functiile corespunzatoare, acestea executandu-se la intalnirea lor in timpul citirii (conform enunt).
+In cazul comenzilor WRITE, MOVE_LEFT, MOVE_RIGHT, MOVE_LEFT_CHAR, MOVE_RIGHT_CHAR, INSERT_LEFT, INSERT_RIGHT, la intalnirea lor
+in fisierul de intrare, le adaug in coada. 
+
+La intalnirea comenzii EXECUTE, extrag prima comanda din coada si verific tipul acesteia,
+dupa care apelez functia corespunzatoare ei. In cazul apelurilor comenzii MOVE_LEFT consecutive atunci cand degetul se afla
+pe prima pozitie a benzii se ia in considerare un singur apel al comenzii. In cazul comenzilor MOVE_LEFT si MOVE_RIGHT se adauga
+pozitia curenta a degetului in stiva de UNDO, dupa care se apeleaza functia corespunzatoare comenzii, actualizandu-se noua pozitie
+a degetului pe banda. In restul cazurilor (comenzile ramase) se apeleaza functia corespunzatoare comenzii intalnite. La intalnirea comenzilor 
+de UNDO si REDO se apeleaza functiile corespunzatoare.
+
+Distrug toate structurile declarate in main si la sfarsitul programului inchid cele doua fisiere de intrare si de iesire.
